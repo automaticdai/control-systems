@@ -16,19 +16,19 @@ Gs = tf([3],[1 4]);
 
 %% Simulate the ideal system
 SAMPLING_TIME = 0.1;
-t = 0:SAMPLING_TIME:10;
+t = 0:SAMPLING_TIME:20 - SAMPLING_TIME;
 t = t';
-u = ones(numel(t),1);
+u = [ones(numel(t)/4,1);zeros(numel(t)/4,1);ones(numel(t)/4,1);zeros(numel(t)/4,1)];
 
 f = figure();
 
-% open loop response
+% open loop step response
 subplot(2, 1, 1);
 [y1, t1, x1] = lsim(Gs, u, t);
 plot(t1, y1, 'r*');
 hold on;
 
-% closed loop response
+% closed loop step response
 subplot(2, 1, 2);
 Gsc = feedback(Gs, 1);
 [y1, t1, x1] = lsim(Gsc, u, t);
@@ -54,13 +54,13 @@ for i = 1:size(X,1)
         display(sprintf('a = %f, b = %f', a, b))
         Hs = tf(a, [1 b]);
         
-        % open loop response
+        % open loop step response
         subplot(2, 1, 1);
         [y2, t2, x2] = lsim(Hs, u, t);
         plot(t2, y2, 'b');
         hold on;
         
-        % closed loop response
+        % closed loop step response
         subplot(2, 1, 2);
         Hsc = feedback(Hs, 1);
         [y2, t2, x2] = lsim(Hsc, u, t);

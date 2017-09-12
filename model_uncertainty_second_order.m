@@ -16,9 +16,9 @@ Gs = tf([3],[1 1 4]);
 
 %% Simulate the ideal system
 SAMPLING_TIME = 0.1;
-t = 0:SAMPLING_TIME:10;
+t = 0:SAMPLING_TIME:20 - SAMPLING_TIME;
 t = t';
-u = ones(numel(t),1);
+u = [ones(numel(t)/2,1);zeros(numel(t)/2,1)];
 
 f = figure();
 
