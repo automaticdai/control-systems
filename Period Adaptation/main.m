@@ -1,5 +1,6 @@
 % Objective: minimize h while make the system stable.
 % Xiaotian Dai
+close all
 
 syms s
 s = tf('s');
@@ -13,14 +14,16 @@ Gs_actual = 3 / (4*s + 1);
 % actual system model
 % time constant: 6s, steady-state time: 6*3 = 18s
 Gs = 3 / (6*s + 1);
-Kp = 2.8;
+%Kp = 2.8;
+Kp = 10;
 Ti = 1.1; 
 Cs = Kp * (Ti*s + 1) / (Ti*s);
 Hsc = feedback(Gs * Cs, 1);
 
+f1 = figure;
+f2 = figure;
 
-
-for i = 0:0
+for i = 0:20
     
 h = 0.12 + 0.012 * i;
 
@@ -48,6 +51,7 @@ pi_quad_cost = pi_state_cost + pi_control_cost;
 
 
 %% plot PIs
+figure(f1)
 subplot(4,1,1)
 scatter(h, pi_ss_time, 'b');
 hold on;
@@ -63,6 +67,17 @@ hold on;
 subplot(4,1,4)
 scatter(h, pi_quad_cost, 'y');
 hold on;
+
+%% plot respones
+figure(f2)
+subplot(2, 1, 1)
+plot(t, y)
+hold on;
+
+subplot(2, 1, 2)
+plot(t, u)
+hold on;
+
 
 end
 

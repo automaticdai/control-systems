@@ -38,8 +38,8 @@ hold on;
 
 %% Simulate some variate systems
 % a range, or even a distribution
-% a = 2.8 - 3.2
-% b = 3.8 - 4.2
+% a = 2.8 - 3.2 (3, ¡À0.2)
+% b = 3.8 - 4.2 (4, ¡À0.2)
 
 para1 = linspace(2.8, 3.2, 5);
 para2 = linspace(3.8, 4.2, 5);

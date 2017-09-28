@@ -11,6 +11,7 @@ close all;
 
 %% Define the Actual System Transfer Function
 % G(s) = 3 / (s^2 + s + 4)
+% G(s) = a / (s^2 + s + b)
 Gs = tf([3],[1 1 4]);
 
 
