@@ -35,14 +35,15 @@ co = ctrb(A,B);
 Controllability = rank(co);
 
 % observability
+% to be finished...
 
 cruise_ss = ss(A,B,C,D);
 
 
 %% LQR Controller Design
 % LQR cost function: xQx + uRu + 2xNu
-Q = 1;
-R = 1;
+Q = 10;
+R = 0.1;
 N = 0;
 
 [K,S,e] = lqr(A, B, Q, R, N);
