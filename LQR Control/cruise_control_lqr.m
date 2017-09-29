@@ -9,16 +9,16 @@
 close all;
 
 %% System Modelling 
+% system parameters
+m = 1000;   % mass
+b = 50;     % 
+u = 500;    % input
 
-m = 1000;
-b = 50;
-u = 500;
-
-% transfer function
+% I. transfer function model
 s = tf('s');
-cruise_tf = 1/(m*s+b);
+cruise_tf = 1 / (m*s+b);
 
-% state-space model
+% II. state-space model
 A = -b/m;
 B = 1/m;
 C = 1;
