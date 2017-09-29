@@ -15,8 +15,8 @@ Gs_actual = 3 / (4*s + 1);
 % time constant: 6s, steady-state time: 6*3 = 18s
 Gs = 3 / (6*s + 1);
 
-%Kp = 2.8; Ti = 1.1; 
-Kp = 10; Ti = 0.8; 
+Kp = 2.8; Ti = 1.1; 
+%Kp = 10; Ti = 0.8; 
 h0 = 0.12;
 h = h0;
 

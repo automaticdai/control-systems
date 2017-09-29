@@ -10,7 +10,7 @@ close all;
 
 %% System Modelling 
 % system parameters
-m = 1000;   % mass
+m = 100;   % mass
 b = 50;     % 
 u = 500;    % input
 
@@ -42,7 +42,7 @@ cruise_ss = ss(A,B,C,D);
 
 %% LQR Controller Design
 % LQR cost function: xQx + uRu + 2xNu
-Q = 10;
+Q = 1000;
 R = 0.1;
 N = 0;
 
