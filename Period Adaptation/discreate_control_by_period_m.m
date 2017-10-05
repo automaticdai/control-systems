@@ -1,23 +1,26 @@
-% Objective: minimize h while make the system stable.
-% Xiaotian Dai
+% main.m
+% Note: minimize h while make the system stable.
+% Author: Xiaotian Dai
+% Version: v1.0
 close all
 
 syms s
 s = tf('s');
 
 % reference model (simple first-order system)
-% time constant: 4s, steady-state: 12s
-% for first-order system
-% response vs tau: 1 tau-63.2, 2 tau-86.5, 3 tau-95.0
+% :time constant: 4s, steady-state: 12s
+% :for first-order system
+% :response vs tau: 1 tau-63.2, 2 tau-86.5, 3 tau-95.0
 Gs_actual = 3 / (4*s + 1);
 
 % actual system model
-% time constant: 6s, steady-state time: 6*3 = 18s
+% :time constant: 6s, steady-state time: 6*3 = 18s
 Gs = 3 / (6*s + 1);
 
+% controller parameters
 Kp = 2.8; Ti = 1.1; 
 %Kp = 10; Ti = 0.8; 
-h0 = 0.12;
+h0 = 0.12;  % (*)  control period
 h = h0;
 
 Cs = Kp * (Ti*s + 1) / (Ti*s);
@@ -42,7 +45,7 @@ hold on;
     
 % Change period from h0 to 1.5*h0, step size = 1% of h0    
 for i = 0:50
-    h = h0 + h0 * 0.01 * i;
+    h = h0 + h0 * 0.05 * i;
 
     % evaluate stability
     Gsd = c2d(Gs, h);

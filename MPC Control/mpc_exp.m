@@ -5,7 +5,7 @@
 % -------------------------------------------------------------------------
 
 %% system dynamic model define
-plant = tf(1,[3 1 1]);
+plant = tf([2 3],[1 5 1]);
 
 
 %% MPC controller
