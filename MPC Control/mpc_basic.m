@@ -7,7 +7,7 @@
 
 
 %% system dynamic model define
-plant = tf([2 3],[1 5 1]);
+plant = tf([2 3],[3 5 1]);
 
 
 %% MPC controller
@@ -21,7 +21,7 @@ mpcobj = mpc(plant, Ts, p, m);
 
 
 %% constraints
-mpcobj.MV = struct('Min',-1,'Max',1);
+mpcobj.MV = struct('Min',-10,'Max',10);
 
 mdl = 'mpc_simulink';
 open_system(mdl);
