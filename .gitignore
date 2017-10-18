@@ -2,3 +2,4 @@
 *.asv
 MPC Control/slprj/_sfprj/mpc_simulink/_self/sfun/info/binfo.mat
 MPC Control/slprj/_sfprj/precompile/dbinfo.mat
+MPC Control/mpc_performance_vs_period/slprj/

@@ -15,6 +15,8 @@ addpath('../../Toolbox/')
 a = 2.0;
 plant = tf([3],[a 1]);
 
+simu.samlping_time = 0.01;
+
 % task period define
 task_param.hi_array = 0.01:0.01:1.00;
 task_param.ci = 0.01;
@@ -43,8 +45,8 @@ sim(mdl);
 
 
 % output error
-state_cost = compute_quadratic_control_cost(1 - y.data, 0, 0.01, 1, 0, 0);
-control_cost = compute_quadratic_control_cost(0, u.data, 0.01, 0, 0, 1);
+state_cost = compute_quadratic_control_cost(1 - y.data, 0, simu.samlping_time, 1, 0, 0);
+control_cost = compute_quadratic_control_cost(0, u.data, simu.samlping_time, 0, 0, 1);
 fprintf('State cost: %f \r\n', state_cost);
 
 h_array = [h_array Ts];
