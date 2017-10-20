@@ -5,21 +5,25 @@
 % https://uk.mathworks.com/help/mpc/examples/control-of-a-single-input-single-output-plant.html
 % -------------------------------------------------------------------------
 
-clear; close all;
+clear; %close all;
 
 addpath('../../Toolbox/')
 
 
 %% Parameters
 % system dynamic model define
-a = 2.0;
-plant = tf([3],[a 1]);
+% period should be 5% - 10% of the rising time (settling time for 1st order systems)
+% settling time = 4 * tau
+tau = 1.0;
+plant = tf([3], [tau 1]);
+mpc_param.plant = plant;
 
-simu.samlping_time = 0.01;
+simu.simulation_time = 10000;
+simu.samlping_time = 0.010;
 
 % task period define
-task_param.hi_array = 0.01:0.01:1.00;
-task_param.ci = 0.01;
+task_param.hi_array = 0.1:0.02:0.8;
+task_param.ci = 0.1;
 
 h_array = [];
 state_cost_array = [];
@@ -34,7 +38,8 @@ mpc_param.m = 3;
 for Ts = task_param.hi_array
 
 % define a MPC controller object
-mpcobj = mpc(plant, Ts, mpc_param.p, mpc_param.m);
+mpc_param.Ts = Ts;
+mpcobj = mpc(mpc_param.plant, mpc_param.Ts, mpc_param.p, mpc_param.m);
 
 % constraints
 mpcobj.MV = struct('Min', -10, 'Max', 10);
@@ -61,12 +66,18 @@ end
 
 %% plot result
 subplot(2, 1, 1)
-scatter(h_array, state_cost_array);
+plot(h_array, state_cost_array, '-x');
+hold on
+xlabel('period')
+ylabel('state cost')
 
 subplot(2, 1, 2)
-scatter(h_array, control_cost_array);
+plot(h_array, control_cost_array, '-x');
+hold on
+xlabel('period')
+ylabel('control effort')
 
-filename = sprintf('a_%0.1f_data.mat', a);
+filename = sprintf('tau_%0.1f_data.mat', tau);
 save(filename, 'plant', 'mpcobj', 'h_array', 'state_cost_array', 'control_cost_array');
 
 rmpath('../../Toolbox/')
