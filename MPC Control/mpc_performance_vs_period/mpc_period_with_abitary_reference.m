@@ -10,8 +10,8 @@ clear; close all;
 addpath('../../Toolbox/')
 
 %% Simulation parameters
-simu.time = 1;
-simu.samlping_time = 0.01;
+simu.time = 20.0;
+simu.samlping_time = 0.001;
 
 
 %% system dynamic model define
@@ -19,7 +19,7 @@ tau = 2.0;
 plant = tf([10],[tau 1]);
 plant_ref = tf([10],[tau 1]);
 
-mpc_param.Ts = 0.5;
+mpc_param.Ts = 1.0;
 
 % inputs
 t = [0:simu.samlping_time:simu.time]';
@@ -29,19 +29,19 @@ ref = (square((t * 2 * pi) / 5) + 1) ./ 2; % period = ? s
 %ref(400:end) = ref(400:end) + 1;
 %ref(600:end) = ref(600:end) - 1;
 %ref(800:end) = ref(800:end) + 1;
-
+ref = ones(numel(t), 1);
 ref_input.time = t;
-ref_input.signals.values = [1.0 .* ref];
+ref_input.signals.values = [ref];
 ref_input.signals.dimensions = 1;
 
-noise = randn(numel(t), 1);
+noise = 0.01 .* randn(numel(t), 1);
 noise_input.time = t;
-noise_input.signals.values = [0.00 .* noise];
+noise_input.signals.values = [noise];
 noise_input.signals.dimensions = 1;
 
 sim('disturbance_generator');
 d_input.time = t;
-d_input.signals.values = [0.00 .* d.data];
+d_input.signals.values = [d.data];
 d_input.signals.dimensions = 1;
 
 

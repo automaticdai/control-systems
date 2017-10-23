@@ -18,11 +18,12 @@ tau = 1.0;
 plant = tf([3], [tau 1]);
 mpc_param.plant = plant;
 
-simu.simulation_time = 10000;
+simu.simulation_time = 200;
 simu.samlping_time = 0.010;
 
 % task period define
-task_param.hi_array = 0.1:0.02:0.8;
+% 2.5% - 100%
+task_param.hi_array = 0.1:0.01:4;
 task_param.ci = 0.1;
 
 h_array = [];
@@ -50,7 +51,7 @@ sim(mdl);
 
 
 % output error
-state_cost = compute_quadratic_control_cost(1 - y.data, 0, simu.samlping_time, 1, 0, 0);
+state_cost = compute_quadratic_control_cost(ref.data(:) - y.data, 0, simu.samlping_time, 1, 0, 0);
 control_cost = compute_quadratic_control_cost(0, u.data, simu.samlping_time, 0, 0, 1);
 fprintf('State cost: %f \r\n', state_cost);
 
