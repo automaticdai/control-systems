@@ -20,10 +20,11 @@ mpc_param.plant = plant;
 
 simu.simulation_time = 200;
 simu.samlping_time = 0.010;
+simu.noise_level = 0.01;
 
 % task period define
 % 2.5% - 100%
-task_param.hi_array = 0.1:0.01:4;
+task_param.hi_array = 0.1:0.5:4;
 task_param.ci = 0.1;
 
 h_array = [];
@@ -36,10 +37,10 @@ mpc_param.m = 3;
 
 
 %% loop periods
-for Ts = task_param.hi_array
+for h_this = task_param.hi_array
 
 % define a MPC controller object
-mpc_param.Ts = Ts;
+mpc_param.Ts = h_this;
 mpcobj = mpc(mpc_param.plant, mpc_param.Ts, mpc_param.p, mpc_param.m);
 
 % constraints
@@ -52,15 +53,19 @@ sim(mdl);
 
 % output error
 state_cost = compute_quadratic_control_cost(ref.data(:) - y.data, 0, simu.samlping_time, 1, 0, 0);
+state_cost_avg = state_cost / simu.simulation_time;
+
 control_cost = compute_quadratic_control_cost(0, u.data, simu.samlping_time, 0, 0, 1);
+control_cost_avg = control_cost / simu.simulation_time;
+
 fprintf('State cost: %f \r\n', state_cost);
 
-h_array = [h_array Ts];
+h_array = [h_array h_this];
 state_cost_array = [state_cost_array state_cost];
 control_cost_array = [control_cost_array control_cost];
 
-filename = sprintf('Ts_%0.2f_data.mat', Ts);
-save(filename, 'Ts', 'y', 'u');
+filename = sprintf('Ts_%0.2f_data.mat', h_this);
+save(filename, 'h_this', 'y', 'u');
 
 end
 
@@ -69,14 +74,14 @@ end
 subplot(2, 1, 1)
 plot(h_array, state_cost_array, '-x');
 hold on
-xlabel('period')
-ylabel('state cost')
+xlabel('control interval')
+ylabel('state cost (CV)')
 
 subplot(2, 1, 2)
 plot(h_array, control_cost_array, '-x');
 hold on
-xlabel('period')
-ylabel('control effort')
+xlabel('control interval')
+ylabel('control effort (MV)')
 
 filename = sprintf('tau_%0.1f_data.mat', tau);
 save(filename, 'plant', 'mpcobj', 'h_array', 'state_cost_array', 'control_cost_array');
