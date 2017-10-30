@@ -10,16 +10,18 @@ clear; close all;
 addpath('../../Toolbox/')
 
 %% Simulation parameters
-simu.time = 100.0;
-simu.samlping_time = 0.001;
+simu.time = 10000.0;
+simu.samlping_time = 0.01;
 
 
 %% System dynamic model define
+% period should be 5% - 10% of the rising time (settling time for 1st order systems)
+% settling time = 4 * tau
 tau = 2.0;
 plant = tf([10],[tau 1]);
 
 mpc_param.plant_ref = plant;
-mpc_param.Ts = 0.8;
+mpc_param.Ts = 0.80;
 
 % inputs
 t = [0:simu.samlping_time:simu.time]';
@@ -42,7 +44,7 @@ ref_input.signals.dimensions = 1;
 
 noise = 0.01 .* randn(numel(t), 1);
 noise_input.time = t;
-noise_input.signals.values = [0 .* noise];
+noise_input.signals.values = [1.0 .* noise];
 noise_input.signals.dimensions = 1;
 
 sim('disturbance_generator');
