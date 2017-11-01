@@ -6,7 +6,7 @@ u_for_plot = [];
 labels = {};
 
 for i = 1:numel(h_array)
-    %
+    % get stead-state time
     filename = sprintf('tss_%0.2f.mat', h_array(i));
     load(filename);
     
@@ -16,13 +16,14 @@ for i = 1:numel(h_array)
     tss_for_plot = [tss_for_plot, tss_a'];
     
     subplot(2,1,1)
-    scatter(i .* ones(1, numel(tss_a)), tss_a, 5.0, 'x'); hold on;
+    scatter(i .* ones(1, numel(tss_a)), tss_a, 5.0, 'rx'); hold on;
     
-    %
+    % get control inputs
     filename = sprintf('Ts_%0.2f.mat', h_array(i));
     load(filename);
     
-    u(u > -1 & u < 1) = NaN;
+    u = abs(u);
+    u(u < 1.0) = NaN;
     u_for_plot = [u_for_plot, u];
 end
 
