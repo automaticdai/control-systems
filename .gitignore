@@ -1,5 +1,5 @@
 *.autosave
 *.asv
-MPC Control/slprj/_sfprj/mpc_simulink/_self/sfun/info/binfo.mat
-MPC Control/slprj/_sfprj/precompile/dbinfo.mat
+MPC Control/mpc_performance_vs_period/result_group_*
 MPC Control/mpc_performance_vs_period/slprj/
+MPC Control/slprj/

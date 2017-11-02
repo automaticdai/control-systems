@@ -29,7 +29,8 @@ end
 
 subplot(2,1,1)
 boxplot(tss_for_plot, 'labels', labels)
+title('Steady State Time')
 
 subplot(2,1,2)
 boxplot(u_for_plot, 'labels', labels)
-
+title('Abnormal Control Signals')
