@@ -51,12 +51,14 @@
 %
 % simu.time = 10000.0;
 % simu.samlping_time = 0.01;
-%
+% opt.noise_on = 1;
+% opt.disturbance_on = 0;
+
 % tau = 2.0;
 % plant = tf([10],[tau 1]);
 %
 % mpc_param.plant_ref = plant;
-% mpc_param.Ts = 0.05 - 0.8;
+% mpc_param.Ts = 0.05:0.05:0.8;
 %
 % t = [0:simu.samlping_time:simu.time]';
 %
@@ -64,18 +66,10 @@
 % ref_sampling_time = 3.78;
 % sim('reference_generator');
 %
-% ref = ref.data;
-% ref_input.time = t;
-% ref_input.signals.values = [ref];
-% ref_input.signals.dimensions = 1;
-%
-% noise = 0.01 .* randn(numel(t), 1);
-% noise_input.time = t;
-% noise_input.signals.values = [1.0 .* noise];
-% noise_input.signals.dimensions = 1;
-%
-% sim('disturbance_generator');
-% d_input.time = t;
-% d_input.signals.values = [0 .* d.data];
-% d_input.signals.dimensions = 1;
 % -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% result_group_d
+% -------------------------------------------------------------------------
+% same with result_group_d, with noise off.

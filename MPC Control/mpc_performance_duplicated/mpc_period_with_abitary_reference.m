@@ -5,13 +5,12 @@
 % https://uk.mathworks.com/help/mpc/examples/control-of-a-single-input-single-output-plant.html
 % -------------------------------------------------------------------------
  
-close all;
+clear; close all;
+
 addpath('../../Toolbox/')
 
-global g_Ts;
-
 %% Simulation parameters
-simu.time = 1000.0;
+simu.time = 100.0;
 simu.samlping_time = 0.01;
 
 
@@ -20,11 +19,9 @@ simu.samlping_time = 0.01;
 % settling time = 4 * tau
 tau = 2.0;
 plant = tf([10],[tau 1]);
-opt.noise_on = 0;
-opt.disturbance_on = 1;
 
 mpc_param.plant_ref = plant;
-mpc_param.Ts = g_Ts;
+mpc_param.Ts = 0.80;
 
 % inputs
 t = [0:simu.samlping_time:simu.time]';
@@ -34,19 +31,25 @@ ref_sampling_time = 3.78;
 sim('reference_generator');
 %ref = (square((t * 2 * pi) / 5) + 1) ./ 2; % period = ? s
 
+%ref(200:end) = ref(200:end) - 1;
+%ref(400:end) = ref(400:end) + 1;
+%ref(600:end) = ref(600:end) - 1;
+%ref(800:end) = ref(800:end) + 1;
+%ref = ones(numel(t), 1);
+
 ref = ref.data;
 ref_input.time = t;
 ref_input.signals.values = [ref];
 ref_input.signals.dimensions = 1;
 
-noise = 0.1 .* randn(numel(t), 1);
+noise = 0.01 .* randn(numel(t), 1);
 noise_input.time = t;
-noise_input.signals.values = [opt.noise_on .* noise];
+noise_input.signals.values = [0 .* noise];
 noise_input.signals.dimensions = 1;
 
 sim('disturbance_generator');
 d_input.time = t;
-d_input.signals.values = [opt.disturbance_on .* d.data];
+d_input.signals.values = [0 .* d.data];
 d_input.signals.dimensions = 1;
 
 
