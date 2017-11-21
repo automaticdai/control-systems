@@ -12,16 +12,16 @@ global g_Ts;
 
 %% Simulation parameters
 simu.time = 1000.0;
-simu.samlping_time = 0.01;
+simu.samlping_time = 0.010;
 
+opt.noise_level = 0.03;
+opt.disturbance_on = 1;
 
 %% System dynamic model define
 % period should be 5% - 10% of the rising time (settling time for 1st order systems)
 % settling time = 4 * tau
 tau = 2.0;
 plant = tf([10],[tau 1]);
-opt.noise_on = 0;
-opt.disturbance_on = 1;
 
 mpc_param.plant_ref = plant;
 mpc_param.Ts = g_Ts;
@@ -39,14 +39,15 @@ ref_input.time = t;
 ref_input.signals.values = [ref];
 ref_input.signals.dimensions = 1;
 
-noise = 0.1 .* randn(numel(t), 1);
+noise = opt.noise_level .* randn(numel(t), 1);
 noise_input.time = t;
-noise_input.signals.values = [opt.noise_on .* noise];
+noise_input.signals.values = [noise];
 noise_input.signals.dimensions = 1;
 
 sim('disturbance_generator');
+d.data = opt.disturbance_on .* d.data;
 d_input.time = t;
-d_input.signals.values = [opt.disturbance_on .* d.data];
+d_input.signals.values = [d.data];
 d_input.signals.dimensions = 1;
 
 
@@ -60,6 +61,7 @@ mpcobj = mpc(mpc_param.plant_ref, mpc_param.Ts, mpc_param.p, mpc_param.m);
 mpcobj.MV = struct('Min', -10, 'Max', 10);
 
 mdl = 'mpc_period_with_r_and_d_simulink';
+%mdl = 'pid_simulink_with_r_and_d';
 open_system(mdl);
 sim(mdl);
 
