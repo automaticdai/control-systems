@@ -1,3 +1,6 @@
+% This experiment explores what could happen for adding two cost function
+% together.
+
 %syms x
 %f = symfun([x^2, x^4], x);
 

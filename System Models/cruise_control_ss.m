@@ -10,5 +10,5 @@ B = 1/m;
 C = 1;
 D = 0;
 
-cruise_ss = ss(A,B,C,D);
-cruise_tf = tf(cruise_ss);
+sys_ss = ss(A,B,C,D);
+sys_tf = tf(cruise_ss);

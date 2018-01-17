@@ -28,7 +28,6 @@ end
 %hold on;
 %plot(S1.y_all);
 
-
 %e = (S1.y(:,1) - S0.y(:,1)) .^ 2 + (S1.y(:,2) - S0.y(:,2)) .^ 2;
 %plot(e)
 %hist(e)
