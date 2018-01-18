@@ -1,4 +1,4 @@
-% mpc_steady_state_analysis.m
+% lqr_steady_state_analysis.m
 % Xiaotian Dai
 % University of York
 % Segment reference signals and find corresponding steady state time.
@@ -33,7 +33,6 @@ while true
 
     % if tss = -1 means did not reach steady-state
     tss_a = [tss_a tss];
-
 end
 
 
@@ -41,5 +40,5 @@ end
 boxplot(tss_a, h);
 i = i + 1;
 
-filename = sprintf('tss_%0.2f.mat', h);
-save(filename,'tss_a','h');
+%filename = sprintf('tss_%0.2f.mat', h);
+%save(filename,'tss_a','h');

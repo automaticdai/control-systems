@@ -1,16 +1,16 @@
 close all;
 rng default  % For reproducibility
 
-pd = makedist('Normal','mu',65,'sigma',10);
+pd = makedist('Normal','mu',100,'sigma',10);
 
-x = random(pd,10000,1);
+x = random(pd,300,1);
 figure()
-histogram(x,100)
+histogram(x,20)
 
-pd = makedist('Normal','mu',72,'sigma',10);
-y = random(pd,5000,1);
+pd = makedist('Normal','mu',103,'sigma',10);
+y = random(pd,200,1);
 hold on
-histogram(y,100)
+histogram(y,20)
 
 % generate empirical CDF
 [Fi,xi] = ecdf(x);
@@ -25,13 +25,10 @@ stairs(xi,Fi,'r');
 %xlim([0 5]); xlabel('x'); ylabel('F(x)');
 
 % K-S test
-[h,p,ks2stat] = kstest2(x,y)
+% [h,p,ks2stat] = kstest2(x,y)
 
 % make pairwise comparison
-% meshgrid(x,g);
+g = pairwise_div(x, y);
 
 figure()
-g = pairwise_compute(y, x);
-histogram(g, 100);
-
-
+histogram(g, 50);
