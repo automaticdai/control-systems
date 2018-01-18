@@ -11,8 +11,8 @@ sys = tf(sys_zpk);
 
 %% Parameters
 T1 = 1000;
-T2 = 2000;
-T3 = 5000;
+T2 = 1000;
+T3 = 1000;
 
 
 %% load and run simulation

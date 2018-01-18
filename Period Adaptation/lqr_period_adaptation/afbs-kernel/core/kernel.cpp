@@ -128,7 +128,7 @@ static void mdlInitializeSizes(SimStruct *S)
     class Task t0(0, 2, 10, 0, 0);
     class Task t1(1, 5, 30, 0, 0);
     class Task t2(2, 10, 100, 0, 0);
-    class Task tau1(3, 20, TASK_0_PERIOD, 0, 0);
+    class Task tau1(0, 20, TASK_0_PERIOD, 0, 0);
     class Task tau2(4, 20, TASK_1_PERIOD, 0, 0);
     class Task tau3(5, 20, TASK_2_PERIOD, 0, 0);
 
@@ -197,17 +197,17 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     if (afbs_get_execution_time_left(afbs_get_running_task_id()) == 1) {
   		switch (afbs_get_running_task_id()) {
-  	        case 1:
+  	        case 3:
   	            error[0] = abs(s_ref[0] - s_y[0]);
   	            s_u[0] = 800 * (s_ref[0] - s_y[0]);
   	            break;
 
-  	        case 2:
+  	        case 4:
   	            error[1] = abs(s_ref[0] - s_y[1]);
   	            s_u[1] = 800 * (s_ref[0] - s_y[1]);
   	            break;
 
-  	        case 3:
+  	        case 5:
   	            error[2] = abs(s_ref[0] - s_y[2]);
   	            s_u[2] = 800 * (s_ref[0] - s_y[2]);
   	            break;
