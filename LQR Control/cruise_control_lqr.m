@@ -47,9 +47,11 @@ R = 0.1;
 N = 0;
 
 [K,S,e] = lqr(A, B, Q, R, N);
+N_bar = (-1 * C * (A - B*K - 1)^(-1) * B) ^ (-1);
+N_bar = rscale(A,B,C,D,K);
 
 % control loop
-cruise_cl = ss(A - B*K, B, C, D);
+cruise_cl = ss(A - B*K, B * N_bar, C, D);
 
 % generate step response
 x0 = [0];
